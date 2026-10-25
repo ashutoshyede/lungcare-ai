@@ -1,0 +1,8 @@
+streamlit
+pandas
+numpy
+joblib
+scipy
+requests
+scikit-learn==1.9.1
+scikit-survival==0.28.0
