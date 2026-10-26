@@ -118,49 +118,49 @@ KB = [
         "source": "LungCare AI project results",
     },
     {
-        "title": "Fever (bukhaar): what to do",
+        "title": "Fever: what to do",
         "keywords": "fever bukhaar temperature tez bukhar paracetamol viral dengue malaria typhoid",
         "text": "Fever means body temperature of about 38 C (100.4 F) or higher. Most fevers come from viral infections and settle in a few days. Home care: rest, plenty of fluids (water, ORS, soups), light food, light clothing and a lukewarm sponge. Paracetamol is the usual first medicine for fever and pain in adults. The dose depends on age and weight, so follow the packet or ask a doctor or pharmacist, and do not give aspirin to children or teenagers. See a doctor if fever lasts more than 3 days, is very high, or comes with severe headache, rash, bleeding, stiff neck, trouble breathing, repeated vomiting, severe weakness or confusion. In India, high fever with body ache needs a doctor's check for dengue, malaria or typhoid. Avoid taking antibiotics on your own.",
         "source": GEN,
     },
     {
-        "title": "Common cold and flu (sardi-zukaam)",
+        "title": "Common cold and flu",
         "keywords": "cold flu sardi zukaam nazla runny nose chheenk sneezing",
         "text": "Colds and flu are usually caused by viruses and get better by themselves in about a week. Antibiotics do not work on viruses. Care: rest, warm fluids, steam inhalation, warm salt-water gargle for sore throat, saline nose drops and enough sleep. Paracetamol can ease fever and body pain, and an antihistamine like cetirizine is commonly used for a runny nose or sneezing, though it can cause sleepiness. Check with a pharmacist or doctor first if you have other illnesses, are pregnant, or are giving medicine to a child. See a doctor if symptoms last more than 10 days, get worse, or you have trouble breathing or chest pain.",
         "source": GEN,
     },
     {
-        "title": "Cough (khansi)",
+        "title": "Cough",
         "keywords": "cough khansi dry cough balgam phlegm TB tuberculosis lasting cough",
         "text": "Most coughs after a cold settle in 1 to 3 weeks. Warm fluids, honey with warm water (not for babies under 1 year), steam and avoiding smoke and dust can help. A cough that lasts more than 3 weeks, or comes with blood, weight loss, night sweats, fever or breathlessness needs a doctor's check, because TB, asthma and lung cancer can also cause long cough. Cough syrups should be chosen with a pharmacist or doctor, especially for children.",
         "source": GEN,
     },
     {
-        "title": "Headache (sar dard)",
+        "title": "Headache",
         "keywords": "headache sar dard migraine tension head pain",
         "text": "Most headaches are tension-type or related to tiredness, dehydration, hunger, eye strain or poor sleep. Rest, water, a light meal and a break from screens can help. Paracetamol is a common first choice for mild headache in adults. Get urgent medical help for a sudden, very severe headache, headache after a head injury, or headache with fever and stiff neck, weakness, confusion, vision changes or fainting. See a doctor if headaches are frequent or getting worse.",
         "source": GEN,
     },
     {
-        "title": "Sore throat (gale mein dard)",
+        "title": "Sore throat",
         "keywords": "sore throat gala kharash gale mein dard tonsils",
         "text": "Sore throat is usually viral. Warm salt-water gargles, warm fluids, honey with warm water and rest help. Paracetamol can ease pain. See a doctor if it lasts more than a week, if swallowing or breathing is hard, or if there is high fever or white patches in the throat, because a bacterial infection might need a doctor-prescribed antibiotic.",
         "source": GEN,
     },
     {
-        "title": "Acidity and heartburn (acidity, jalan)",
+        "title": "Acidity and heartburn",
         "keywords": "acidity heartburn gas jalan pet dard antacid indigestion",
         "text": "Acidity often improves by eating smaller meals, avoiding very spicy or oily food, not lying down right after eating, limiting tea, coffee, alcohol and smoking. Antacids from a pharmacy can give short relief. See a doctor if it happens often, or comes with trouble swallowing, black stools, vomiting blood, weight loss or chest pain, because chest pain can also be a heart problem.",
         "source": GEN,
     },
     {
-        "title": "Loose motions and dehydration (dast)",
+        "title": "Diarrhea and dehydration",
         "keywords": "diarrhea loose motion dast ORS dehydration pet kharab vomiting ulti",
         "text": "The main danger of diarrhea and vomiting is losing too much water. Drink ORS (oral rehydration solution), water, coconut water and light foods like rice, banana and curd. See a doctor quickly if there is blood in stool, high fever, diarrhea for more than 2 days, signs of dehydration (very dry mouth, little urine, dizziness), or if a child, an elderly person or a pregnant woman is affected.",
         "source": GEN,
     },
     {
-        "title": "Body pain and muscle ache (badan dard)",
+        "title": "Body pain and muscle ache",
         "keywords": "body pain muscle ache badan dard joint pain kamar dard weakness",
         "text": "Body aches after exertion or with a viral illness usually improve with rest, fluids and warm compresses. Paracetamol is a common first medicine for mild pain. Pain relievers like ibuprofen can upset the stomach and affect kidneys and are not suitable for everyone, so check with a doctor or pharmacist first. See a doctor if pain is severe, lasts more than a week, follows an injury, or comes with fever and rash.",
         "source": GEN,
@@ -394,11 +394,11 @@ def ask_gemini(api_key, history, custom_model="", context=""):
             continue
 
         if r.status_code in (401, 403) or "API key not valid" in r.text:
-            return None, "API key galat hai ya kaam nahi kar rahi. Sidebar mein key dobara check karo."
+            return None, "The API key is invalid or not working. Please check the key in the sidebar."
 
         last_error = f"{name}: error {r.status_code} - {r.text[:200]}"
 
-    return None, last_error or "Koi model jawab nahi de paya."
+    return None, last_error or "No model could answer."
 
 
 def show_sources(sources):
@@ -417,20 +417,20 @@ with st.sidebar:
     _typed_key = st.text_input(
         "Gemini API key",
         type="password",
-        help="Sirf chatbot ke liye chahiye. Kisi ko share mat karo.",
+        help="Needed only for the chatbot. Do not share it with anyone.",
     )
     # If the owner stored a key in Streamlit secrets / environment, visitors can use the chatbot
     # without typing a key. The stored key is never shown on the page.
     _env_key = os.environ.get("GEMINI_API_KEY", "")
     api_key = _typed_key.strip() or _env_key
     if _env_key and not _typed_key.strip():
-        st.caption("Is app mein ek shared key lagi hai, key daalna zaroori nahi.")
-    custom_model = st.text_input("Model name (optional)", value="", help="Khali chhodo toh app khud try karega.")
+        st.caption("This app has a shared key, so you do not need to enter your own.")
+    custom_model = st.text_input("Model name (optional)", value="", help="Leave blank and the app will try its default models automatically.")
     if st.button("Clear chat"):
         st.session_state.messages = []
         st.rerun()
     st.caption(f"Knowledge base: {len(KB)} entries")
-    st.caption("Research prototype. Doctor ki salah ka vikalp nahi.")
+    st.caption("Research prototype. Not a substitute for a doctor's advice.")
 
 st.markdown(
     """
@@ -499,14 +499,14 @@ st.markdown(
     </style>
     <div class="hero">
         <h1>🫁 LungCare AI</h1>
-        <p>Lung cancer jaankari chatbot aur survival estimate (research prototype)</p>
+        <p>Lung cancer information chatbot and survival estimate (research prototype)</p>
     </div>
     """,
     unsafe_allow_html=True,
 )
 st.warning(
-    "Ye sirf seekhne/research ke liye hai. Ye diagnosis ya doctor ki salah nahi hai. "
-    "Koi bhi dawai ya treatment lene se pehle apne doctor se verify zaroor karo."
+    "This is for learning and research only. It is not a diagnosis or medical advice. "
+    "Always verify any medicine or treatment with your doctor before using it."
 )
 
 
@@ -517,10 +517,10 @@ if page == "💬 Chatbot":
 
     if not st.session_state.messages:
         st.info(
-            "Kuch bhi poochho, jaise:\n\n"
-            "- Stage 3 lung cancer ka kya matlab hota hai?\n"
-            "- Bukhaar ho gaya hai, kya karun?\n"
-            "- Lung cancer ke symptoms kya hote hain?"
+            "Ask me anything, for example:\n\n"
+            "- What does stage 3 lung cancer mean?\n"
+            "- I have a fever, what should I do?\n"
+            "- What are the symptoms of lung cancer?"
         )
 
     for m in st.session_state.messages:
@@ -529,7 +529,7 @@ if page == "💬 Chatbot":
             if m["role"] == "assistant":
                 show_sources(m.get("sources"))
 
-    user_text = st.chat_input("Apna sawaal likho...")
+    user_text = st.chat_input("Type your question...")
     if user_text:
         st.session_state.messages.append({"role": "user", "content": user_text})
         with st.chat_message("user"):
@@ -537,21 +537,21 @@ if page == "💬 Chatbot":
 
         with st.chat_message("assistant"):
             if not api_key:
-                reply = "Pehle left sidebar mein apni Gemini API key daalo."
+                reply = "Please enter your Gemini API key in the left sidebar first."
                 st.markdown(reply)
                 st.session_state.messages.append({"role": "assistant", "content": reply})
             else:
                 entries = retrieve(st.session_state.messages)
                 surv_ctx, surv_src = "", None
                 if SURV_OK and (st.session_state.get("awaiting_patient") or SURV_TRIGGER.search(user_text)):
-                    with st.spinner("Patient details samajh raha hoon..."):
+                    with st.spinner("Reading patient details..."):
                         pinfo = extract_patient(api_key, st.session_state.messages, custom_model)
                     if pinfo and pinfo.get("wants_estimate"):
                         surv_ctx, surv_src, waiting = survival_context(pinfo)
                         st.session_state.awaiting_patient = waiting
                     else:
                         st.session_state.awaiting_patient = False
-                with st.spinner("Soch raha hoon..."):
+                with st.spinner("Thinking..."):
                     text, info = ask_gemini(
                         api_key, st.session_state.messages, custom_model, make_context(entries) + surv_ctx
                     )
@@ -571,7 +571,7 @@ if page == "💬 Chatbot":
 # ---------------------------------------------------------------- survival tab
 if page == "📈 Survival Estimate":
     if not SURV_OK:
-        st.error(f"Survival model load nahi hua: {SURV_ERR}")
+        st.error(f"Could not load the survival model: {SURV_ERR}")
         st.stop()
 
     st.subheader("Patient details")
@@ -611,10 +611,10 @@ if page == "📈 Survival Estimate":
         st.table(pd.DataFrame(rows).set_index("Stage"))
 
         st.info(
-            "Ye model sirf 4 cheezein use karta hai (age, stage, sex, cancer type), isliye ye bahut "
-            "rough andaza hai aur kisi ek insaan ke baare mein pakka nahi bata sakta. Stage III-IV "
-            "ke liye model kamzor hai. Test data par C-index 0.68 raha (moderate). "
-            "Sirf research ke liye."
+            "This model uses only 4 inputs (age, stage, sex and cancer type), so it gives a very "
+            "rough estimate and cannot predict the outcome for one person. The model is weaker for "
+            "stage III-IV. Its C-index on the test data was 0.68 (moderate). "
+            "For research only."
         )
 
 st.divider()
